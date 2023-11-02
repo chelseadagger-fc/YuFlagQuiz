@@ -4,6 +4,25 @@ import bodyParser from "body-parser";
 const app = express();
 const port = 3000;
 
+const db = new pg.Client({
+  user: "postgres",
+  host: "localhost",
+  database: "world",
+  password: "1234",
+  port: 5432
+});
+
+db.connect();
+
+db.query("SELECT * FROM flags", (err, res) => {
+  if (err) {
+    console.error("Error executing query.", err.stack);
+  } else {
+    quiz = res.rows;
+  }
+  db.end();
+})
+
 let totalCorrect = 0;
 
 // Middleware
